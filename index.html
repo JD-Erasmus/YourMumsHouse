@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Mum's House - Map</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <meta charset="UTF-8">
+  <title>Your Mum's House — Leaflet</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
   <style>
-    #map { height: 100vh; width: 100vw; }
-    body { margin: 0; padding: 0; }
-    .leaflet-popup-content-wrapper {
-      background: #222; color: #fff; font-size: 14px;
+    html, body, #map { height: 100%; margin: 0; }
+    .leaflet-tooltip {
+      background: white;
+      color: black;
+      font-weight: bold;
+      font-size: 14px;
+      border-radius: 4px;
+      padding: 2px 6px;
+      box-shadow: 0 0 3px rgba(0,0,0,0.5);
     }
   </style>
 </head>
@@ -17,20 +21,30 @@
   <div id="map"></div>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // The Cock Tavern, Euston, London
-    var funnyLat = 51.5281, funnyLng = -0.1337;
+    // The Cock Tavern (Euston, London)
+    const lat = 51.531197;
+    const lng = -0.131419;
 
-    var map = L.map('map').setView([funnyLat, funnyLng], 17);
+    const map = L.map("map").setView([lat, lng], 19); // zoom in tight
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap contributors'
+    // OSM tiles — support zoom 19
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 20,
+      attribution: "© OpenStreetMap contributors"
     }).addTo(map);
 
-    L.marker([funnyLat, funnyLng])
+    const emojiIcon = L.divIcon({
+      className: "",
+      html: "🍺",
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    });
+
+    L.marker([lat, lng], { icon: emojiIcon })
       .addTo(map)
-      .bindPopup("<b>Your Mum's House</b><br>Right inside The Cock Tavern 🍻")
-      .openPopup();
+      .bindPopup("<b>Your Mum’s House</b><br>Right inside The Cock Tavern 🍻")
+      .openPopup()
+      .bindTooltip("The Cock Tavern 🍺", { permanent: true, direction: "top" });
   </script>
 </body>
 </html>
